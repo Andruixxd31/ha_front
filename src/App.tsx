@@ -97,30 +97,6 @@ function App() {
                 </TooltipTrigger>
                 <TooltipContent side="right">Dashboard</TooltipContent>
               </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    to="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <ShoppingCart className="h-5 w-5" />
-                    <span className="sr-only">Orders</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Orders</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    to="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <Package className="h-5 w-5" />
-                    <span className="sr-only">Products</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Products</TooltipContent>
-              </Tooltip>
 
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -296,7 +272,7 @@ function App() {
                       <CardHeader>
                         <CardTitle>Detalles de Cosecha</CardTitle>
                         <CardDescription>
-                          Lipsum dolor sit amet, consectetur adipiscing elit
+                          Ingresa nota sobre las condiciones sobre tus cosechas
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
@@ -307,14 +283,14 @@ function App() {
                               id="name"
                               type="text"
                               className="w-full"
-                              defaultValue="Gamer Gear Pro Controller"
+                              defaultValue=""
                             />
                           </div>
                           <div className="grid gap-3">
                             <Label htmlFor="description">Description</Label>
                             <Textarea
                               id="description"
-                              defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
+                              defaultValue=""
                               className="min-h-32"
                             />
                           </div>
@@ -332,16 +308,16 @@ function App() {
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead className="w-[100px]">SKU</TableHead>
-                              <TableHead>Stock</TableHead>
-                              <TableHead>Price</TableHead>
-                              <TableHead className="w-[100px]">Size</TableHead>
+                              <TableHead className="w-[100px]">Cosecha</TableHead>
+                              <TableHead>Cantidad</TableHead>
+                              <TableHead>Costo por kilo</TableHead>
+                              <TableHead className="w-[100px]"></TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
                             <TableRow>
                               <TableCell className="font-semibold">
-                                GGPC-001
+                                Maiz
                               </TableCell>
                               <TableCell>
                                 <Label htmlFor="stock-1" className="sr-only">
@@ -377,7 +353,7 @@ function App() {
                             </TableRow>
                             <TableRow>
                               <TableCell className="font-semibold">
-                                GGPC-002
+                                Calabaza
                               </TableCell>
                               <TableCell>
                                 <Label htmlFor="stock-2" className="sr-only">
@@ -413,7 +389,7 @@ function App() {
                             </TableRow>
                             <TableRow>
                               <TableCell className="font-semibold">
-                                GGPC-003
+                                Frijol
                               </TableCell>
                               <TableCell>
                                 <Label htmlFor="stock-3" className="sr-only">
