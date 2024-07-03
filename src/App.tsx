@@ -255,7 +255,7 @@ function App() {
                     className="overflow-hidden rounded-full"
                   >
                     <img
-                      src="/placeholder-user.jpg"
+                      src="../public/avatar.svg"
                       width={36}
                       height={36}
                       alt="Avatar"
