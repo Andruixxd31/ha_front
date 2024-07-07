@@ -1,5 +1,10 @@
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
+import * as React from "react"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+
+import { cn } from "./lib/utils"
 import './tailwind.css';
 import {
   ChevronLeft,
@@ -16,6 +21,14 @@ import {
   Users2,
 } from "lucide-react"
 import { Badge } from "./components/ui/badge"
+
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -72,9 +85,11 @@ import {
 } from "./components/ui/tooltip"
 
 function App() {
+  const [date, setDate] = React.useState<Date>()
   return (
     <Router>
       <TooltipProvider>
+
         <div className="flex min-h-screen w-full flex-col bg-muted/40" >
           <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -82,7 +97,9 @@ function App() {
                 to="#"
                 className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
               >
-                <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+                <img
+                  src='/logo.png'
+                />
                 <span className="sr-only">Acme Inc</span>
               </Link>
               <Tooltip>
@@ -125,31 +142,6 @@ function App() {
               </Tooltip>
             </nav>
             <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Total Revenue
-                  </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
-                  <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                  </p>
-                </CardContent>
-              </Card>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
@@ -243,7 +235,7 @@ function App() {
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
-                  placeholder="Search..."
+                  placeholder="Buscar..."
                   className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
                 />
               </div>
@@ -289,8 +281,32 @@ function App() {
                     </Button>
                     <Button size="sm">Guardar Datos</Button>
                   </div>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-[280px] justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
+
                   <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                     <Card x-chunk="dashboard-07-chunk-0">
                       <CardHeader>
@@ -302,7 +318,7 @@ function App() {
                       <CardContent>
                         <div className="grid gap-6">
                           <div className="grid gap-3">
-                            <Label htmlFor="name">Name</Label>
+                            <Label htmlFor="name">Nombre</Label>
                             <Input
                               id="name"
                               type="text"
@@ -311,7 +327,7 @@ function App() {
                             />
                           </div>
                           <div className="grid gap-3">
-                            <Label htmlFor="description">Description</Label>
+                            <Label htmlFor="description">Descripcion</Label>
                             <Textarea
                               id="description"
                               defaultValue=""
@@ -325,7 +341,7 @@ function App() {
                       <CardHeader>
                         <CardTitle>Costo Cosechas</CardTitle>
                         <CardDescription>
-                          Lipsum dolor sit amet, consectetur adipiscing elit
+                          Agrega el costo de los cosechas para dar un seguimiento
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
@@ -364,15 +380,6 @@ function App() {
                                 />
                               </TableCell>
                               <TableCell>
-                                <ToggleGroup
-                                  type="single"
-                                  defaultValue="s"
-                                  variant="outline"
-                                >
-                                  <ToggleGroupItem value="s">S</ToggleGroupItem>
-                                  <ToggleGroupItem value="m">M</ToggleGroupItem>
-                                  <ToggleGroupItem value="l">L</ToggleGroupItem>
-                                </ToggleGroup>
                               </TableCell>
                             </TableRow>
                             <TableRow>
@@ -398,17 +405,6 @@ function App() {
                                   type="number"
                                   defaultValue="99.99"
                                 />
-                              </TableCell>
-                              <TableCell>
-                                <ToggleGroup
-                                  type="single"
-                                  defaultValue="m"
-                                  variant="outline"
-                                >
-                                  <ToggleGroupItem value="s">S</ToggleGroupItem>
-                                  <ToggleGroupItem value="m">M</ToggleGroupItem>
-                                  <ToggleGroupItem value="l">L</ToggleGroupItem>
-                                </ToggleGroup>
                               </TableCell>
                             </TableRow>
                             <TableRow>
@@ -436,15 +432,6 @@ function App() {
                                 />
                               </TableCell>
                               <TableCell>
-                                <ToggleGroup
-                                  type="single"
-                                  defaultValue="s"
-                                  variant="outline"
-                                >
-                                  <ToggleGroupItem value="s">S</ToggleGroupItem>
-                                  <ToggleGroupItem value="m">M</ToggleGroupItem>
-                                  <ToggleGroupItem value="l">L</ToggleGroupItem>
-                                </ToggleGroup>
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -453,58 +440,9 @@ function App() {
                       <CardFooter className="justify-center border-t p-4">
                         <Button size="sm" variant="ghost" className="gap-1">
                           <PlusCircle className="h-3.5 w-3.5" />
-                          Add Variant
+                          Agregar Otra
                         </Button>
                       </CardFooter>
-                    </Card>
-                    <Card x-chunk="dashboard-07-chunk-2">
-                      <CardHeader>
-                        <CardTitle>Product Category</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid gap-6 sm:grid-cols-3">
-                          <div className="grid gap-3">
-                            <Label htmlFor="category">Category</Label>
-                            <Select>
-                              <SelectTrigger
-                                id="category"
-                                aria-label="Select category"
-                              >
-                                <SelectValue placeholder="Select category" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="clothing">Clothing</SelectItem>
-                                <SelectItem value="electronics">
-                                  Electronics
-                                </SelectItem>
-                                <SelectItem value="accessories">
-                                  Accessories
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="grid gap-3">
-                            <Label htmlFor="subcategory">
-                              Subcategory (optional)
-                            </Label>
-                            <Select>
-                              <SelectTrigger
-                                id="subcategory"
-                                aria-label="Select subcategory"
-                              >
-                                <SelectValue placeholder="Select subcategory" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                                <SelectItem value="hoodies">Hoodies</SelectItem>
-                                <SelectItem value="sweatshirts">
-                                  Sweatshirts
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                      </CardContent>
                     </Card>
                   </div>
                   <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
@@ -518,7 +456,7 @@ function App() {
                             <Label htmlFor="status">Estado</Label>
                             <Select>
                               <SelectTrigger id="status" aria-label="Select status">
-                                <SelectValue placeholder="Select status" />
+                                <SelectValue placeholder="Selecciona Estado" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="draft">Buena condicion</SelectItem>
@@ -545,46 +483,20 @@ function App() {
                             alt="Product image"
                             className="aspect-square w-full rounded-md object-cover"
                             height="300"
-                            src="/placeholder.svg"
+                            src="/map.jpeg"
                             width="300"
                           />
-                          <div className="grid grid-cols-3 gap-2">
-                            <button>
-                              <img
-                                alt="Product image"
-                                className="aspect-square w-full rounded-md object-cover"
-                                height="84"
-                                src="/placeholder.svg"
-                                width="84"
-                              />
-                            </button>
-                            <button>
-                              <img
-                                className="aspect-square w-full rounded-md object-cover"
-                                height="84"
-                                width="84"
-                              />
-                            </button>
-                            <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                              <Upload className="h-4 w-4 text-muted-foreground" />
-                              <span className="sr-only">Upload</span>
-                            </button>
-                          </div>
                         </div>
                       </CardContent>
                     </Card>
                     <Card x-chunk="dashboard-07-chunk-5">
                       <CardHeader>
-                        <CardTitle>Archive Product</CardTitle>
+                        <CardTitle>$450,000 Perdidas Estimadas</CardTitle>
                         <CardDescription>
-                          Lipsum dolor sit amet, consectetur adipiscing elit.
+                          Debido a una sequia moderado sustendada y poca disponibilidad de agua en acuiferos
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div></div>
-                        <Button size="sm" variant="secondary">
-                          Archive Product
-                        </Button>
                       </CardContent>
                     </Card>
                   </div>
